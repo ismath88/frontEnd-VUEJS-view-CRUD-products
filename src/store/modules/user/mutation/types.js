@@ -1,0 +1,4 @@
+export default {
+  GET_DATA_USER: 'GET_DATA_USER',
+  DELETE_DATA_USER: 'DELETE_DATA_USER',
+}
