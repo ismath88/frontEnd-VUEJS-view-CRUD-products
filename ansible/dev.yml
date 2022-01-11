@@ -1,0 +1,34 @@
+---
+- hosts: all
+  become: yes
+  gather_facts: no
+  vars:
+    commit_hash: "{{ app_revision | default('develop') }}"
+
+  tasks:
+    - name: Print deployment details
+      debug: msg="Deploying application version {{ commit_hash }} to {{ path_dev }} on stage {{ app_dev_env }}. CI mode {{ lookup('env','CI') }}"
+
+    - name: Change Permission of Pointer CMS project
+      shell: sudo chown -R sis-deployer:root "{{path_dev}}"
+
+    - name: Change Permission of sis-deployer
+      shell: sudo chown -R sis-deployer:sis-deployer .git-credentials
+      args:
+        chdir: "/home/sis-deployer"
+
+    - name: Clone repository
+      git:
+        repo: ''
+        version: "{{ commit_hash }}"
+        dest: "{{ path_dev }}"
+        accept_hostkey: yes
+        update: yes
+        force: yes
+      register: cloned
+      become: yes
+      become_user: "{{ user }}"
+    - name: Start stack with docker-compose remotely
+      shell: "docker-compose up -d --build"
+      args:
+        chdir: "{{ path_dev }}"
