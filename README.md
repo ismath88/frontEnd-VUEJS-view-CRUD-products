@@ -1,4 +1,4 @@
-# U-Centric Meter to Cash (UM2C) Project
+
 
 ## Features
 
@@ -41,3 +41,7 @@ This project includes a `docs` folder with more details on:
 1.  [Editor integration](docs/editors.md)
 1.  [Building and deploying to production](docs/production.md)
 1.  [Troubleshooting](docs/troubleshooting.md)
+
+
+
+PRODUCTS store,views,router ,api connct,modules.mutation
